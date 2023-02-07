@@ -2,7 +2,7 @@
  * @Author:Jim Chen
  * @Date:2023-02-06 16:12:39
  * @LastEditors:Jim Chen
- * @LastEditTime:2023-02-06 16:13:51
+ * @LastEditTime:2023-02-06 17:59:25
  * @Description:
 -->
 <template>
@@ -10,6 +10,7 @@
     <h1>Log in to {{ title }}</h1>
     <button
       class="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+      @click="login"
     >
       Log in with Github
     </button>
@@ -18,4 +19,15 @@
 
 <script setup>
 const { title } = useCourse();
+const supabase = useSupabaseClient();
+
+const login = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+  });
+
+  if (error) {
+    console.error(error);
+  }
+}
 </script>
